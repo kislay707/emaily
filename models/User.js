@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  googleId: String
+  googleId: String,
+  givenName: String
 });
 
 mongoose.model("users", userSchema);
