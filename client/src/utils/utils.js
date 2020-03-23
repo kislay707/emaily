@@ -18,7 +18,6 @@ const findXPlusTile = (currentTile, tiles, count) => {
   var newTileIndex = currentTileIndex;
   while (true) {
     newTileIndex = newTileIndex + 1;
-    console.log(newTileIndex);
     if (newTileIndex >= 0 && newTileIndex < tiles.length) {
       const { x, y } = findXY(newTileIndex, count);
       if (y != currentTileY) {
@@ -46,7 +45,7 @@ const findTopRightPlusTile = (currentTile, tiles, count) => {
   var newTileIndex = currentTileIndex;
   while (true) {
     newTileIndex = newTileIndex + 1 - count;
-    console.log(newTileIndex);
+    //console.log(newTileIndex);
     if (newTileIndex >= 0 && newTileIndex < tiles.length) {
       const { x, y } = findXY(newTileIndex, count);
       if (x <= currentTileX) {
@@ -74,7 +73,7 @@ const findBottRightPlusTile = (currentTile, tiles, count) => {
   var newTileIndex = currentTileIndex;
   while (true) {
     newTileIndex = newTileIndex + 1 + count;
-    console.log(newTileIndex);
+    //console.log(newTileIndex);
     if (newTileIndex >= 0 && newTileIndex < tiles.length) {
       const { x, y } = findXY(newTileIndex, count);
       if (x <= currentTileX) {
@@ -102,7 +101,7 @@ const findBottLeftPlusTile = (currentTile, tiles, count) => {
   var newTileIndex = currentTileIndex;
   while (true) {
     newTileIndex = newTileIndex - 1 + count;
-    console.log(newTileIndex);
+    //console.log(newTileIndex);
     if (newTileIndex >= 0 && newTileIndex < tiles.length) {
       const { x, y } = findXY(newTileIndex, count);
       if (x >= currentTileX) {
@@ -130,7 +129,7 @@ const findTopLeftPlusTile = (currentTile, tiles, count) => {
   var newTileIndex = currentTileIndex;
   while (true) {
     newTileIndex = newTileIndex - 1 - count;
-    console.log(newTileIndex);
+    //console.log(newTileIndex);
     if (newTileIndex >= 0 && newTileIndex < tiles.length) {
       const { x, y } = findXY(newTileIndex, count);
       if (x >= currentTileX) {
@@ -158,7 +157,7 @@ const findYPlusTile = (currentTile, tiles, count) => {
   var newTileIndex = currentTileIndex;
   while (true) {
     newTileIndex = newTileIndex + count;
-    console.log(newTileIndex);
+    //console.log(newTileIndex);
     if (newTileIndex >= 0 && newTileIndex < tiles.length) {
       const { x, y } = findXY(newTileIndex, count);
       if (x != currentTileX) {
@@ -186,7 +185,7 @@ const findXMinusTile = (currentTile, tiles, count) => {
   var newTileIndex = currentTileIndex;
   while (true) {
     newTileIndex = newTileIndex - 1;
-    console.log(newTileIndex);
+    //console.log(newTileIndex);
     if (newTileIndex >= 0 && newTileIndex < tiles.length) {
       const { x, y } = findXY(newTileIndex, count);
       if (y != currentTileY) {
@@ -214,7 +213,7 @@ const findYMinusTile = (currentTile, tiles, count) => {
   var newTileIndex = currentTileIndex;
   while (true) {
     newTileIndex = newTileIndex - count;
-    console.log(newTileIndex);
+    //console.log(newTileIndex);
     if (newTileIndex >= 0 && newTileIndex < tiles.length) {
       const { x, y } = findXY(newTileIndex, count);
       if (x != currentTileX) {
@@ -404,7 +403,7 @@ const colorInbetweenTiles = (
   if (pattern === "xplus") {
     while (true) {
       newTileIndex = newTileIndex + 1;
-      console.log(newTileIndex);
+      //console.log(newTileIndex);
       if (newTileIndex >= tile1.index) {
         break;
       } else {
@@ -414,7 +413,7 @@ const colorInbetweenTiles = (
   } else if (pattern === "yplus") {
     while (true) {
       newTileIndex = newTileIndex + count;
-      console.log(newTileIndex);
+      //console.log(newTileIndex);
       if (newTileIndex >= tile1.index) {
         break;
       } else {
@@ -424,7 +423,7 @@ const colorInbetweenTiles = (
   } else if (pattern === "xminus") {
     while (true) {
       newTileIndex = newTileIndex - 1;
-      console.log(newTileIndex);
+      //console.log(newTileIndex);
       if (newTileIndex <= tile1.index) {
         break;
       } else {
@@ -434,7 +433,7 @@ const colorInbetweenTiles = (
   } else if (pattern === "yminus") {
     while (true) {
       newTileIndex = newTileIndex - count;
-      console.log(newTileIndex);
+      //console.log(newTileIndex);
       if (newTileIndex <= tile1.index) {
         break;
       } else {
@@ -444,7 +443,7 @@ const colorInbetweenTiles = (
   } else if (pattern === "topRight") {
     while (true) {
       newTileIndex = newTileIndex + 1 - count;
-      console.log(newTileIndex);
+      //console.log(newTileIndex);
       if (newTileIndex <= tile1.index) {
         break;
       } else {
@@ -454,7 +453,7 @@ const colorInbetweenTiles = (
   } else if (pattern === "bottomRight") {
     while (true) {
       newTileIndex = newTileIndex + 1 + count;
-      console.log(newTileIndex);
+      //console.log(newTileIndex);
       if (newTileIndex >= tile1.index) {
         break;
       } else {
@@ -464,7 +463,7 @@ const colorInbetweenTiles = (
   } else if (pattern === "bottomLeft") {
     while (true) {
       newTileIndex = newTileIndex - 1 + count;
-      console.log(newTileIndex);
+      //console.log(newTileIndex);
       if (newTileIndex >= tile1.index) {
         break;
       } else {
@@ -474,7 +473,7 @@ const colorInbetweenTiles = (
   } else if (pattern === "topLeft") {
     while (true) {
       newTileIndex = newTileIndex - 1 - count;
-      console.log(newTileIndex);
+      //console.log(newTileIndex);
       if (newTileIndex <= tile1.index) {
         break;
       } else {
@@ -482,5 +481,5 @@ const colorInbetweenTiles = (
       }
     }
   }
-  console.log("tiles is", tiles);
+  //console.log("tiles is", tiles);
 };
