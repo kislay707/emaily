@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { findXY, findIndex, findList } from "../utils/utils";
 
@@ -48,7 +48,52 @@ function Board(props) {
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [currentAge, setCurrentAge] = useState(0);
 
-  const handleTileClick = index => {
+  const [position, setPosition] = useState(props.gameData.position);
+  const opponent = props.gameData.opponent;
+
+  useEffect(() => {
+    setPosition(props.gameData.position);
+  }, [props.gameData.position]);
+  //   if (position) {
+  //       set
+  //   }
+  const [opponentSwitch, setOpponentSwitch] = useState(false);
+
+  const socket = props.socket;
+
+  useEffect(() => {
+    if (socket) {
+      console.log("please");
+      //setCurrentPlayer(currentPlayer === 0 ? 1 : 0);
+      handleTileClick2(props.opponentSwitch, currentPlayer === 0 ? 1 : 0);
+    }
+  }, [props.opponentSwitch]);
+
+  const handleTileClick = (index, alt) => {
+    // let temp;
+    // if (alt) {
+    //   temp = alt;
+    // } else {
+    //   temp = currentPlayer;
+    // }
+    if (tiles[index].owner === -1 && currentPlayer === position) {
+      tiles[index].owner = currentPlayer;
+      tiles[index].age = currentAge;
+      const nextPlayer = currentPlayer === 0 ? 1 : 0;
+      setCurrentPlayer(nextPlayer);
+      setCurrentAge(currentAge + 1);
+      const list = findList(nextPlayer, tiles, count, currentAge);
+      if (socket) {
+        socket.emit("updatePosition", { index: index, opponent: opponent });
+      }
+    }
+  };
+
+  const handleTileClick2 = (index, alt) => {
+    let temp = currentPlayer === 0 ? 1 : 0;
+
+    // let a = position === 0 ? 1 : 0;
+    // setPosition(a);
     if (tiles[index].owner === -1) {
       tiles[index].owner = currentPlayer;
       tiles[index].age = currentAge;
@@ -56,6 +101,9 @@ function Board(props) {
       setCurrentPlayer(nextPlayer);
       setCurrentAge(currentAge + 1);
       const list = findList(nextPlayer, tiles, count, currentAge);
+      if (socket) {
+        socket.emit("updatePosition", { index: index, opponent: opponent });
+      }
     }
   };
 

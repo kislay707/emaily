@@ -4,6 +4,8 @@ const keys = require("./config/keys");
 const cookiesession = require("cookie-session");
 const passport = require("passport");
 
+const Game = require("./serverGame/Game");
+
 const app = express();
 var server = require("http").createServer(app);
 var io = require("socket.io")(server);
@@ -24,13 +26,7 @@ app.use(passport.session());
 
 require("./routes/authRoutes")(app);
 
-io.on("connection", client => {
-  console.log("client connected now");
-  client.emit("news", { hello: "world" });
-  client.on("mevent", function(data) {
-    console.log(data);
-  });
-});
+Game.initialize(io);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
