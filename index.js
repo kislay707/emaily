@@ -26,6 +26,9 @@ require("./routes/authRoutes")(app);
 
 io.on("connection", client => {
   console.log("client connected now");
+  client.emit("news", { hello: "world" });
+  client.on("mevent", function(data) {
+    console.log(data);
 });
 
 if (process.env.NODE_ENV === "production") {
