@@ -21,7 +21,7 @@ class Game extends Component {
   componentDidMount() {
     axios.get("/api/current_user").then(user => {
       if (user.data.googleId) {
-        const socket = openSocket("http://localhost:5000");
+        const socket = openSocket();
         this.socket = socket;
         socket.emit("clientConnected");
         socket.on("startMatch", data => {
