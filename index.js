@@ -29,6 +29,7 @@ io.on("connection", client => {
   client.emit("news", { hello: "world" });
   client.on("mevent", function(data) {
     console.log(data);
+  });
 });
 
 if (process.env.NODE_ENV === "production") {
