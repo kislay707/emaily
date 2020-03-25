@@ -1,3 +1,5 @@
+const utils = require("./utilsServerGame");
+
 const connectedPlayers = [];
 const currentGames = [];
 
@@ -19,17 +21,47 @@ module.exports.initialize = io => {
     client.on("clientConnected", function() {
       console.log("small client connected now");
 
+      // when player disconnects
+      client.on("disconnect", reason => {
+        console.log("Client disconnected");
+        console.log(reason);
+        console.log(client.id);
+
+        var index = utils.findPlayerIndexBySocketId(
+          client.id,
+          connectedPlayers
+        );
+        var playerId = connectedPlayers[index].id;
+
+        var gameIndex = utils.findGameIndexByPlayerId(playerId, currentGames);
+        var currentGame = currentGames[gameIndex];
+
+        if (index !== -1) connectedPlayers.splice(index, 1);
+
+        if (currentGame) {
+          currentGames.splice(gameIndex, 1);
+          var opponent = utils.findOpponent(playerId, currentGame);
+          opponent.socket.emit("opponentDisconnected", {});
+        }
+
+        console.log("connectedPlayers");
+        console.log(connectedPlayers);
+
+        console.log("currentGames");
+        console.log(currentGames);
+      });
+
       const idlePlayers = connectedPlayers.filter(player => {
         return player.status === -1;
       });
-      console.log("idlePlayers");
-      console.log(idlePlayers);
+      // console.log("idlePlayers");
+      // console.log(idlePlayers);
 
       const player = new Player(client, client.id);
-      console.log("connectedPlayers");
+      console.log("connectedPlayers joined");
       connectedPlayers.push(player);
-
       console.log(connectedPlayers);
+
       let selectedPlayer;
       if (idlePlayers.length > 0) {
         selectedPlayer = idlePlayers[0];
@@ -41,24 +73,26 @@ module.exports.initialize = io => {
         console.log(data);
         const opponentId = data.opponent;
 
-        const currentGame = currentGames.filter(game => {
-          return (
-            game.player1.id === opponentId || game.player2.id === opponentId
-          );
-        });
+        const currentGameIndex = utils.findGameIndexByPlayerId(
+          opponentId,
+          currentGames
+        );
+        const currentGame = currentGames[currentGameIndex];
 
         console.log("current Game");
         console.log(currentGame);
 
-        const opponent =
-          opponentId === currentGame[0].player1.id
-            ? currentGame[0].player1
-            : currentGame[0].player2;
+        if (currentGame) {
+          const opponent =
+            opponentId === currentGame.player1.id
+              ? currentGame.player1
+              : currentGame.player2;
 
-        console.log("opponent");
-        console.log(opponent);
+          console.log("opponent");
+          console.log(opponent);
 
-        opponent.socket.emit("opponentPosition", data);
+          opponent.socket.emit("opponentPosition", data);
+        }
       });
     });
   });
@@ -67,32 +101,8 @@ module.exports.initialize = io => {
 const startMatch = (player1, player2) => {
   console.log("match startedd");
   currentGames.push(new Games(player1, player2));
+  player1.status = 0;
+  player2.status = 0;
   player1.socket.emit("startMatch", { position: 0, opponent: player2.id });
   player2.socket.emit("startMatch", { position: 1, opponent: player1.id });
 };
-
-// module.exports = io => {
-// //   app.get(
-// //     "/auth/google",
-// //     passport.authenticate("google", {
-// //       scope: ["profile", "email"]
-// //     })
-// //   );
-
-// //   app.get(
-// //     "/auth/google/callback",
-// //     passport.authenticate("google"),
-// //     (req, res) => {
-// //       res.redirect("/");
-// //     }
-// //   );
-
-// //   app.get("/api/logout", (req, res) => {
-// //     req.logout();
-// //     res.redirect("/");
-// //   });
-
-// //   app.get("/api/current_user", (req, res) => {
-// //     res.send(req.user);
-// //   });
-// };

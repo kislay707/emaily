@@ -8,7 +8,9 @@ const Game = require("./serverGame/Game");
 
 const app = express();
 var server = require("http").createServer(app);
-var io = require("socket.io")(server);
+var io = require("socket.io")(server, {
+  pingTimeout: 30000
+});
 
 require("./models/User");
 require("./services/passport");
