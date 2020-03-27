@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const keys = require("./config/keys");
 const cookiesession = require("cookie-session");
 const passport = require("passport");
+var bodyParser = require("body-parser");
 
 const Game = require("./serverGame/Game");
 
@@ -11,6 +12,12 @@ var server = require("http").createServer(app);
 var io = require("socket.io")(server, {
   pingTimeout: 30000
 });
+
+// parse application/x-www-form-urlencoded
+//app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 require("./models/User");
 require("./services/passport");

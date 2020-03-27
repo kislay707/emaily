@@ -94,6 +94,22 @@ module.exports.initialize = io => {
           opponent.socket.emit("opponentPosition", data);
         }
       });
+
+      client.on("userMessage", function(data) {
+        var index = utils.findPlayerIndexBySocketId(
+          client.id,
+          connectedPlayers
+        );
+        var playerId = connectedPlayers[index].id;
+
+        var gameIndex = utils.findGameIndexByPlayerId(playerId, currentGames);
+        var currentGame = currentGames[gameIndex];
+
+        if (currentGame) {
+          var opponent = utils.findOpponent(playerId, currentGame);
+          opponent.socket.emit("opponentMessage", { message: data.message });
+        }
+      });
     });
   });
 };

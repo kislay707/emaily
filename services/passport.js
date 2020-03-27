@@ -33,7 +33,8 @@ passport.use(
       } else {
         const user = await new User({
           googleId: profile.id,
-          givenName: profile.displayName
+          givenName: profile.displayName,
+          picture: profile._json ? profile._json.picture : ""
         }).save();
         done(null, user);
       }
