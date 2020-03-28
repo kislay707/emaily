@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { findXY, findIndex, findList } from "../utils/utils";
+import { findList } from "../utils/utils";
 
 const count = 8;
 const size = 50;
+
 const Tile = function(x, y, owner, status, index) {
   this.x = x;
   this.y = y;
@@ -48,35 +49,20 @@ function Board(props) {
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [currentAge, setCurrentAge] = useState(0);
 
-  const [position, setPosition] = useState(props.gameData.position);
-  const opponent = props.gameData.opponent;
-
-  useEffect(() => {
-    setPosition(props.gameData.position);
-  }, [props.gameData.position]);
-  //   if (position) {
-  //       set
-  //   }
-  const [opponentSwitch, setOpponentSwitch] = useState(false);
-
   const socket = props.socket;
 
   useEffect(() => {
     if (props.opponentSwitch !== -1) {
       console.log(`opponenct clicked at ${props.opponentSwitch}`);
-      //setCurrentPlayer(currentPlayer === 0 ? 1 : 0);
-      handleTileClick2(props.opponentSwitch, currentPlayer === 0 ? 1 : 0);
+      handleOpponentTileClick(props.opponentSwitch);
     }
   }, [props.opponentSwitch]);
 
-  const handleTileClick = (index, alt) => {
-    // let temp;
-    // if (alt) {
-    //   temp = alt;
-    // } else {
-    //   temp = currentPlayer;
-    // }
-    if (tiles[index].owner === -1 && currentPlayer === position) {
+  const handleTileClick = index => {
+    if (
+      tiles[index].owner === -1 &&
+      currentPlayer === props.gameData.position
+    ) {
       tiles[index].owner = currentPlayer;
       tiles[index].age = currentAge;
       const nextPlayer = currentPlayer === 0 ? 1 : 0;
@@ -84,26 +70,23 @@ function Board(props) {
       setCurrentAge(currentAge + 1);
       const list = findList(nextPlayer, tiles, count, currentAge);
       if (socket) {
-        socket.emit("updatePosition", { index: index, opponent: opponent });
+        socket.emit("updatePosition", {
+          index: index,
+          opponent: props.gameData.opponent
+        });
       }
     }
   };
 
-  const handleTileClick2 = (index, alt) => {
-    let temp = currentPlayer === 0 ? 1 : 0;
-
-    // let a = position === 0 ? 1 : 0;
-    // setPosition(a);
+  const handleOpponentTileClick = index => {
     if (tiles[index].owner === -1) {
       tiles[index].owner = currentPlayer;
       tiles[index].age = currentAge;
+
       const nextPlayer = currentPlayer === 0 ? 1 : 0;
       setCurrentPlayer(nextPlayer);
       setCurrentAge(currentAge + 1);
       const list = findList(nextPlayer, tiles, count, currentAge);
-      if (socket) {
-        socket.emit("updatePosition", { index: index, opponent: opponent });
-      }
     }
   };
 

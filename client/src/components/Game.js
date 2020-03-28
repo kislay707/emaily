@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
+
 import Board from "./Board";
-import openSocket from "socket.io-client";
+
 import { Widget, addResponseMessage } from "react-chat-widget";
 
 import "react-chat-widget/lib/styles.css";
