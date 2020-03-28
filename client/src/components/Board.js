@@ -62,8 +62,8 @@ function Board(props) {
   const socket = props.socket;
 
   useEffect(() => {
-    if (socket) {
-      console.log("please");
+    if (props.opponentSwitch !== -1) {
+      console.log(`opponenct clicked at ${props.opponentSwitch}`);
       //setCurrentPlayer(currentPlayer === 0 ? 1 : 0);
       handleTileClick2(props.opponentSwitch, currentPlayer === 0 ? 1 : 0);
     }

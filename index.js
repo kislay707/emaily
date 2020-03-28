@@ -13,6 +13,8 @@ var io = require("socket.io")(server, {
   pingTimeout: 30000
 });
 
+console.log("yoooo");
+
 // parse application/x-www-form-urlencoded
 //app.use(bodyParser.urlencoded({ extended: false }));
 

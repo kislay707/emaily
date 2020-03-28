@@ -10,95 +10,44 @@ class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
-      gameData: {},
-      opponentSwitch: false,
-      opponent: {}
+      chatBadgeCount: 0
     };
-    this.socket = null;
   }
 
-  startMatch = data => {
-    this.setState({ gameData: data });
-  };
-
   componentDidMount() {
-    axios.get("/api/current_user").then(user => {
-      if (user.data.googleId) {
-        // http://localhost:5000
-        // const socket = openSocket("http://localhost:5000");
-        // this.socket = socket;
-
-        const socket = openSocket.connect();
-        this.socket = socket;
-        socket.on("connect", function() {
-          console.log("testing");
-          const sessionID = socket.id; //
-          console.log(sessionID);
-
-          const formData = new FormData();
-          formData.append("socketId", sessionID);
-          axios
-            .post("/api/setUserSocket", { socketId: sessionID })
-            .then(user => console.log(user));
-        });
-
-        socket.emit("clientConnected");
-        socket.on("startMatch", data => {
-          console.log("lllll");
-          console.log(data);
-          //this.startMatch(data);
-
-          axios
-            .get(`/api/getUserSocket?socketId=${data.opponent}`)
-            .then(user => {
-              this.setState({ gameData: data, opponent: user.data });
-              console.log(user);
-            });
-        });
-
-        socket.on("opponentPosition", data => {
-          console.log("opponentPosition");
-          console.log(data);
-          //handleTileClick(data.index);
-          this.setState({ opponentSwitch: data.index });
-        });
-        this.setState({ user: user.data });
-
-        socket.on("opponentMessage", data => {
-          addResponseMessage(data.message);
-        });
-      }
-    });
+    if (this.props.socket) {
+      // opponent messaged
+      this.props.socket.on("opponentMessage", data => {
+        addResponseMessage(data.message);
+        this.setState({ chatBadgeCount: this.state.chatBadgeCount + 1 });
+      });
+    }
   }
 
   handleNewUserMessage = newMessage => {
     console.log(`New message incomig! ${newMessage}`);
-    this.socket.emit("userMessage", { message: newMessage });
-    // Now send the message throught the backend API
+    if (this.props.socket) {
+      this.props.socket.emit("userMessage", { message: newMessage });
+      if (this.state.chatBadgeCount !== 0) {
+        this.setState({ chatBadgeCount: 0 });
+      }
+    }
   };
 
   render() {
     return (
       <div>
-        {!this.state.user.googleId ? (
-          <a href="/auth/google">Login</a>
-        ) : (
-          <div>
-            <div> Welcome {this.state.user.givenName} </div>
-            <a href="/api/logout">Logout</a>
-          </div>
-        )}
         <Widget
-          profileAvatar={this.state.opponent.picture}
+          badge={this.state.chatBadgeCount}
+          profileAvatar={this.props.opponentPicture}
           title="Send message"
           subtitle=""
           handleNewUserMessage={this.handleNewUserMessage}
         />
         <Board
-          gameData={this.state.gameData}
-          socket={this.socket}
-          opponentSwitch={this.state.opponentSwitch}
+          gameData={this.props.gameData}
+          socket={this.props.socket}
+          opponentSwitch={this.props.opponentSwitch}
         />
       </div>
     );
