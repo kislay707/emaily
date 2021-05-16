@@ -233,7 +233,7 @@ const findYMinusTile = (currentTile, tiles, count) => {
   return result;
 };
 
-export const findList = (nextPlayer, tiles, count, currentAge) => {
+export const findList = (nextPlayer, tiles, count, currentAge, opponentPlayerSound) => {
   const ownerTiles = tiles.filter(tile => {
     return tile.owner === nextPlayer;
   });
@@ -261,16 +261,21 @@ export const findList = (nextPlayer, tiles, count, currentAge) => {
     });
   }
 
+
+  // below code to check if the selected tiles should be painted and paint it
   for (var i = 0; i < ownerTiles.length; i++) {
     let mainTile = ownerTiles[i];
-
+    var toPaint = false;
     let tile1Index = newList[i].xPlus;
     if (tile1Index) {
       let tile1 = tiles[tile1Index];
       let greaterAge = Math.max(tile1.age, mainTile.age); // 1 , 10, 11,13, 15, 17
-      let distance = Math.abs(tile1.x - mainTile.x - 1);
-      if ((currentAge - greaterAge + 1) / 2 >= distance) {
-        colorInbetweenTiles(mainTile, tile1, "xplus", tiles, nextPlayer, count);
+      let distance = Math.abs(tile1.x - mainTile.x) - 1;
+      if ((currentAge - greaterAge + 1) / 2 >= distance && distance !== 0) {
+        toPaint = true;
+        console.log("color triggered");
+        console.log(tile1, mainTile, distance, currentAge, greaterAge);
+        colorInbetweenTiles(mainTile, tile1, "xplus", tiles, nextPlayer, count, currentAge, opponentPlayerSound);
       }
     }
 
@@ -278,15 +283,20 @@ export const findList = (nextPlayer, tiles, count, currentAge) => {
     if (tile1Index) {
       let tile1 = tiles[tile1Index];
       let greaterAge = Math.max(tile1.age, mainTile.age); // 1 , 10, 11,13, 15, 17
-      let distance = Math.abs(tile1.x - mainTile.x - 1);
-      if ((currentAge - greaterAge + 1) / 2 >= distance) {
+      let distance = Math.abs(tile1.x - mainTile.x) - 1;
+      if ((currentAge - greaterAge + 1) / 2 >= distance && distance !== 0) {
+        toPaint = true;
+        console.log("color triggered");
+        console.log(tile1, mainTile, distance, currentAge, greaterAge);
         colorInbetweenTiles(
           mainTile,
           tile1,
           "xminus",
           tiles,
           nextPlayer,
-          count
+          count,
+          currentAge,
+          opponentPlayerSound
         );
       }
     }
@@ -295,9 +305,12 @@ export const findList = (nextPlayer, tiles, count, currentAge) => {
     if (tile1Index) {
       let tile1 = tiles[tile1Index];
       let greaterAge = Math.max(tile1.age, mainTile.age); // 1 , 10, 11,13, 15, 17
-      let distance = Math.abs(tile1.y - mainTile.y - 1);
-      if ((currentAge - greaterAge + 1) / 2 >= distance) {
-        colorInbetweenTiles(mainTile, tile1, "yplus", tiles, nextPlayer, count);
+      let distance = Math.abs(tile1.y - mainTile.y) - 1;
+      if ((currentAge - greaterAge + 1) / 2 >= distance && distance !== 0) {
+        toPaint = true;
+        console.log("color triggered");
+        console.log(tile1, mainTile, distance, currentAge, greaterAge);
+        colorInbetweenTiles(mainTile, tile1, "yplus", tiles, nextPlayer, count, currentAge, opponentPlayerSound);
       }
     }
 
@@ -305,15 +318,20 @@ export const findList = (nextPlayer, tiles, count, currentAge) => {
     if (tile1Index) {
       let tile1 = tiles[tile1Index];
       let greaterAge = Math.max(tile1.age, mainTile.age); // 1 , 10, 11,13, 15, 17
-      let distance = Math.abs(tile1.y - mainTile.y - 1);
-      if ((currentAge - greaterAge + 1) / 2 >= distance) {
+      let distance = Math.abs(tile1.y - mainTile.y) - 1;
+      if ((currentAge - greaterAge + 1) / 2 >= distance && distance !== 0) {
+        toPaint = true;
+        console.log("color triggered");
+        console.log(tile1, mainTile, distance, currentAge, greaterAge);
         colorInbetweenTiles(
           mainTile,
           tile1,
           "yminus",
           tiles,
           nextPlayer,
-          count
+          count,
+          currentAge,
+          opponentPlayerSound
         );
       }
     }
@@ -322,15 +340,20 @@ export const findList = (nextPlayer, tiles, count, currentAge) => {
     if (tile1Index) {
       let tile1 = tiles[tile1Index];
       let greaterAge = Math.max(tile1.age, mainTile.age); // 1 , 10, 11,13, 15, 17
-      let distance = Math.abs(tile1.y - mainTile.y - 1);
-      if ((currentAge - greaterAge + 1) / 2 >= distance) {
+      let distance = Math.abs(tile1.y - mainTile.y) - 1;
+      if ((currentAge - greaterAge + 1) / 2 >= distance && distance !== 0) {
+        toPaint = true;
+        console.log("color triggered");
+        console.log(tile1, mainTile, distance, currentAge, greaterAge);
         colorInbetweenTiles(
           mainTile,
           tile1,
           "topRight",
           tiles,
           nextPlayer,
-          count
+          count,
+          currentAge,
+          opponentPlayerSound
         );
       }
     }
@@ -339,15 +362,20 @@ export const findList = (nextPlayer, tiles, count, currentAge) => {
     if (tile1Index) {
       let tile1 = tiles[tile1Index];
       let greaterAge = Math.max(tile1.age, mainTile.age); // 1 , 10, 11,13, 15, 17
-      let distance = Math.abs(tile1.y - mainTile.y - 1);
-      if ((currentAge - greaterAge + 1) / 2 >= distance) {
+      let distance = Math.abs(tile1.y - mainTile.y) - 1;
+      if ((currentAge - greaterAge + 1) / 2 >= distance && distance !== 0) {
+        toPaint = true;
+        console.log("color triggered");
+        console.log(tile1, mainTile, distance, currentAge, greaterAge);
         colorInbetweenTiles(
           mainTile,
           tile1,
           "bottomRight",
           tiles,
           nextPlayer,
-          count
+          count,
+          currentAge,
+          opponentPlayerSound
         );
       }
     }
@@ -356,15 +384,20 @@ export const findList = (nextPlayer, tiles, count, currentAge) => {
     if (tile1Index) {
       let tile1 = tiles[tile1Index];
       let greaterAge = Math.max(tile1.age, mainTile.age); // 1 , 10, 11,13, 15, 17
-      let distance = Math.abs(tile1.y - mainTile.y - 1);
-      if ((currentAge - greaterAge + 1) / 2 >= distance) {
+      let distance = Math.abs(tile1.y - mainTile.y) - 1;
+      if ((currentAge - greaterAge + 1) / 2 >= distance && distance !== 0) {
+        toPaint = true;
+        console.log("color triggered");
+        console.log(tile1, mainTile, distance, currentAge, greaterAge);
         colorInbetweenTiles(
           mainTile,
           tile1,
           "bottomLeft",
           tiles,
           nextPlayer,
-          count
+          count,
+          currentAge,
+          opponentPlayerSound
         );
       }
     }
@@ -373,17 +406,25 @@ export const findList = (nextPlayer, tiles, count, currentAge) => {
     if (tile1Index) {
       let tile1 = tiles[tile1Index];
       let greaterAge = Math.max(tile1.age, mainTile.age); // 1 , 10, 11,13, 15, 17
-      let distance = Math.abs(tile1.y - mainTile.y - 1);
-      if ((currentAge - greaterAge + 1) / 2 >= distance) {
+      let distance = Math.abs(tile1.y - mainTile.y) - 1;
+      if ((currentAge - greaterAge + 1) / 2 >= distance && distance !== 0) {
+        toPaint = true;
+        console.log("color triggered");
+        console.log(tile1, mainTile, );
         colorInbetweenTiles(
           mainTile,
           tile1,
           "topLeft",
           tiles,
           nextPlayer,
-          count
+          count,
+          currentAge,
+          opponentPlayerSound
         );
       }
+    }
+    if (toPaint) {
+      opponentPlayerSound();
     }
   }
 };
@@ -394,8 +435,11 @@ const colorInbetweenTiles = (
   pattern,
   tiles,
   nextPlayer,
-  count
+  count,
+  currentAge,
+  opponentPlayerSound
 ) => {
+  //opponentPlayerSound();
   const currentTileX = mainTile.x;
   const currentTileY = mainTile.y;
   const currentTileIndex = mainTile.index;
@@ -407,6 +451,7 @@ const colorInbetweenTiles = (
       if (newTileIndex >= tile1.index) {
         break;
       } else {
+        tiles[newTileIndex].age = currentAge;
         tiles[newTileIndex].owner = nextPlayer;
       }
     }
@@ -417,6 +462,7 @@ const colorInbetweenTiles = (
       if (newTileIndex >= tile1.index) {
         break;
       } else {
+        tiles[newTileIndex].age = currentAge;
         tiles[newTileIndex].owner = nextPlayer;
       }
     }
@@ -427,6 +473,7 @@ const colorInbetweenTiles = (
       if (newTileIndex <= tile1.index) {
         break;
       } else {
+        tiles[newTileIndex].age = currentAge;
         tiles[newTileIndex].owner = nextPlayer;
       }
     }
@@ -437,6 +484,7 @@ const colorInbetweenTiles = (
       if (newTileIndex <= tile1.index) {
         break;
       } else {
+        tiles[newTileIndex].age = currentAge;
         tiles[newTileIndex].owner = nextPlayer;
       }
     }
@@ -447,6 +495,7 @@ const colorInbetweenTiles = (
       if (newTileIndex <= tile1.index) {
         break;
       } else {
+        tiles[newTileIndex].age = currentAge;
         tiles[newTileIndex].owner = nextPlayer;
       }
     }
@@ -457,6 +506,7 @@ const colorInbetweenTiles = (
       if (newTileIndex >= tile1.index) {
         break;
       } else {
+        tiles[newTileIndex].age = currentAge;
         tiles[newTileIndex].owner = nextPlayer;
       }
     }
@@ -467,6 +517,7 @@ const colorInbetweenTiles = (
       if (newTileIndex >= tile1.index) {
         break;
       } else {
+        tiles[newTileIndex].age = currentAge;
         tiles[newTileIndex].owner = nextPlayer;
       }
     }
@@ -477,6 +528,7 @@ const colorInbetweenTiles = (
       if (newTileIndex <= tile1.index) {
         break;
       } else {
+        tiles[newTileIndex].age = currentAge;
         tiles[newTileIndex].owner = nextPlayer;
       }
     }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import axios from "axios";
+import styled from "styled-components";
 
 import Game from "./components/Game";
 import Home from "./components/Home";
@@ -73,7 +74,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <AppContainer>
         <Header userId={this.state.user.googleId}></Header>
         <BrowserRouter>
           <div>
@@ -107,9 +108,22 @@ class App extends Component {
             />
           </div>
         </BrowserRouter>
-      </div>
+        <Footer>Copyright © 2021 Kislay Jain</Footer>
+      </AppContainer>
     );
   }
 }
+
+const AppContainer = styled.div`
+padding: 20px 30px;
+`;
+
+const Footer = styled.div`
+  color: #777;
+  text-align: center;
+  font-size 12px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  margin-top: 50px;
+`;
 
 export default App;
